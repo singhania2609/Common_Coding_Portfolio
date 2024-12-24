@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Stats Summary</title>
+  <style>
+    body {
+      font-family: 'Josefin Sans', sans-serif;
+      background: url('bg.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      margin-top: 20px;
+      width: 90%;
+      max-width: 600px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .output h3 {
+      color: #2b9348;
+    }
+
+    .error {
+      color: red;
+    }
+
+    footer {
+      background-color: grey;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      margin-top: 20px;
+      width: 100%;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h2>User Stats Summary</h2>
+    <div id="output" class="output"></div>
+  </div>
+  <footer>
+    Disclaimer: Please do not use anyone else's identification details in your resume submission. We will not be held responsible for any issues arising from such misuse. Additionally, be aware that this website may occasionally produce inaccurate results.
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const gfgUsername = urlParams.get('gfgUsername');
+      const leetcodeUsername = urlParams.get('leetcodeUsername');
+      const codeforcesUsername = urlParams.get('codeforcesUsername');
+
+      const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+      const gfgApiUrl = `https://geeks-for-geeks-stats-api.vercel.app/?raw=y&userName=${gfgUsername}`;
+      const leetcodeApiUrl = `https://leetcode-api-faisalshohag.vercel.app/${leetcodeUsername}`;
+      const codeforcesApiUrl = `https://codeforces.com/api/user.info?handles=${codeforcesUsername}`;
+
+      Promise.all([
+        fetch(proxyUrl + gfgApiUrl).then(response => response.json()),
+        fetch(leetcodeApiUrl).then(response => response.json()),
+        fetch(codeforcesApiUrl).then(response => response.json())
+      ])
+      .then(([gfgData, leetcodeData, codeforcesData]) => {
+        let outputHtml = '';
+
+        if (gfgData.error) {
+          outputHtml += `<div class="error">GFG Error: ${gfgData.error}</div>`;
+        } else {
+          outputHtml += `
+            <h3>GeeksforGeeks User Stats</h3>
+            <p>Username: ${gfgData.userName}</p>
+            <p>School Problems Solved: ${gfgData.School}</p>
+            <p>Basic Problems Solved: ${gfgData.Basic}</p>
+            <p>Easy Problems Solved: ${gfgData.Easy}</p>
+            <p>Medium Problems Solved: ${gfgData.Medium}</p>
+            <p>Hard Problems Solved: ${gfgData.Hard}</p>
+            <p>Total Problems Solved: ${gfgData.totalProblemsSolved}</p>
+          `;
+        }
+
+        if (leetcodeData.error) {
+          outputHtml += `<div class="error">LeetCode Error: ${leetcodeData.error}</div>`;
+        } else {
+          outputHtml += `
+            <h3>LeetCode User Stats</h3>
+            <p>Username: ${leetcodeUsername}</p>
+            <p>Total Problems Solved: ${leetcodeData.totalSolved}</p>
+            <p>Easy Problems Solved: ${leetcodeData.easySolved}</p>
+            <p>Medium Problems Solved: ${leetcodeData.mediumSolved}</p>
+            <p>Hard Problems Solved: ${leetcodeData.hardSolved}</p>
+          `;
+        }
+
+        if (codeforcesData.status !== 'OK') {
+          outputHtml += `<div class="error">Codeforces Error: User not found</div>`;
+        } else {
+          const user = codeforcesData.result[0];
+          outputHtml += `
+            <h3>Codeforces User Stats</h3>
+            <p>Username: ${user.handle}</p>
+            <p>Rating: ${user.rating}</p>
+            <p>Max Rating: ${user.maxRating}</p>
+            <p>Rank: ${user.rank}</p>
+            <p>Max Rank: ${user.maxRank}</p>
+          `;
+        }
+
+        document.getElementById('output').innerHTML = outputHtml;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('output').innerHTML = '<div class="error">An error occurred. Please try again.</div>';
+      });
+    });
+  </script>
+</body>
+</html>

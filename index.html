@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MNIT User Stats</title>
+  <style>
+    body {
+      font-family: 'Josefin Sans', sans-serif;
+      background: url('bg.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.7);
+      width: 100%;
+      padding: 10px 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    header img {
+      height: 50px;
+      margin-right: 20px;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .container {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      margin-top: 20px;
+      width: 90%;
+      max-width: 600px;
+    }
+    .container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin: 0 10px;
+    }
+    .form-group button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #2b9348;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .form-group button:hover {
+      background-color: #238636;
+    }
+    .output {
+      margin-top: 20px;
+      display: none;
+    }
+    .output h3 {
+      color: #2b9348;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <img src="Mnit_logo.png" alt="MNIT Logo">
+    <h1 style="font-size: 30px;">Malviya National Institute of Technology- Coder Portfolio</h1>
+  </header>
+  <marquee behavior="scroll" direction="left" style="font-size: 15px;">
+    <h1>Coders, Welcome to MNIT User Stats!</h1>
+  </marquee>
+  <div class="container">
+    <h2>Enter Profile Information</h2>
+    <form id="statsForm">
+      <div class="form-group">
+        <input type="text" id="gfgUsername" placeholder="Enter GFG Username" required />
+      </div>
+      <div class="form-group">
+        <input type="text" id="leetcodeUsername" placeholder="Enter LeetCode Username" required />
+      </div>
+      <div class="form-group">
+        <input type="text" id="codeforcesUsername" placeholder="Enter Codeforces Username" required />
+      </div>
+      <div class="form-group">
+        <button type="submit">Generate Stats</button>
+      </div>
+    </form>
+    <div id="error" class="error"></div>
+    <div id="output" class="output"></div>
+  </div>
+<br><br><br><br><br><br>
+  <footer>
+    <p style="font-size: 25px;">
+      Disclaimer: Please do not use anyone else's identification details in your resume submission. We will not be held responsible for any issues arising from such misuse. Additionally, be aware that this website may occasionally produce inaccurate results.
+    </p></p>
+  </footer>
+  
+  <script src="script.js"></script>
+</body>
+</html>
